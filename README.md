@@ -81,11 +81,18 @@ guaranteed memory of previous sessions.
 
 > **User:** *Yo vi una película muy buena la semana pasado. Se llama "Coco" y me hizo llorar.*
 
-**Claude corrects, then offers alternatives, then continues:**
+**Claude corrects, then asks for the fix back before going any further:**
 
 > **Claude:** *¡"Coco" es preciosa, totalmente de acuerdo! Un pequeño detalle: dijiste "la semana
-> pasado", pero "semana" es femenino, así que es "la semana pasad**a**". Todo lo demás estuvo muy
-> bien.*
+> pasado", pero "semana" es femenino, así que es "la semana pasad**a**". ¿Me lo repites bien?*
+
+**User repeats it correctly:**
+
+> **User:** *La semana pasada.*
+
+**Claude confirms, offers alternatives, then continues:**
+
+> **Claude:** *¡Perfecto, eso es! Todo lo demás estuvo muy bien.*
 >
 > *Otras formas de decir lo mismo:*
 > - *Más formal: "Vi una película excelente la semana pasada."*
@@ -103,10 +110,11 @@ Interlocutor runs two phases:
    Claude infers a CEFR level (A1-C2) from however the user answers; no self-graded letter is
    required.
 2. **An adaptive conversation loop**: Claude speaks only in the target language, reacts to what
-   the user actually says, corrects real errors directly but kindly, always offers a few
-   alternative phrasings (varying register, synonyms, and structure) even for correct sentences,
-   and then continues. Difficulty drifts up or down based on how the last several turns went,
-   without ever being announced.
+   the user actually says, corrects real errors directly but kindly, and has the user repeat the
+   corrected phrase back before moving on, so the fix gets active recall instead of just passive
+   exposure. It then always offers a few alternative phrasings (varying register, synonyms, and
+   structure) even for correct sentences, and continues. Difficulty drifts up or down based on how
+   the last several turns went, without ever being announced.
 
 A hard rule runs underneath all of it: Interlocutor never fabricates pronunciation feedback. Voice
 mode hands Claude a text transcript, not audio, so any claim about accent or pronunciation would
@@ -118,6 +126,9 @@ preserving context without depending on any particular storage.
 
 ## Version History
 
+- **1.1.0** - After correcting an error, Claude now asks the user to repeat the corrected phrase
+  back before moving on to alternatives and the next question, for active recall instead of just
+  passive exposure to the fix.
 - **1.0.0** - Initial release.
 
 ## License
