@@ -4,10 +4,6 @@ A Claude Skill that turns a chat, including voice mode, into a foreign-language 
 partner. It's plain Markdown, so it works anywhere Claude Skills work: no code, no build step, no
 external dependencies.
 
-This is built specifically for chat clients with voice mode (claude.ai, the Claude mobile apps),
-not for coding-agent tools like Claude Code or Codex, which don't have a spoken conversation mode
-to practice with.
-
 ## Installation
 
 Add `SKILL.md` as a Skill in a Claude app that supports voice mode:
