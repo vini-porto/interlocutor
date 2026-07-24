@@ -1,17 +1,17 @@
 ---
 name: interlocutor
 description: |
-  Practice a foreign language through natural conversation, spoken or typed, including Claude's
-  voice mode. Use when the user wants to practice, improve, or maintain a foreign language by
-  talking with the assistant. On the first message of a session, if no saved progress exists,
-  runs a short conversational check-in to learn the target language, approximate level, and
-  topics of interest, then infers a CEFR level (A1-C2). Drives an adaptive conversation loop: the
-  assistant speaks only in the target language, corrects grammar and vocabulary directly but
-  kindly, offers alternative phrasings, and raises or lowers difficulty over time without
-  announcing it. Never evaluates pronunciation, accent, or intonation, since voice input arrives
-  as transcribed text with no audio signal to judge. Produces a copyable plain-text progress
-  summary at the end of each session, and resumes from a pasted summary (or a local progress.md
-  where filesystem access is available) instead of repeating the check-in.
+  Practice a foreign language through natural conversation in a Claude chat, including voice mode.
+  Use when the user wants to practice, improve, or maintain a foreign language by talking with the
+  assistant. On the first message of a session, if no saved progress exists, runs a short
+  conversational check-in to learn the target language, approximate level, and topics of interest,
+  then infers a CEFR level (A1-C2). Drives an adaptive conversation loop: the assistant speaks only
+  in the target language, corrects grammar and vocabulary directly but kindly, offers alternative
+  phrasings, and raises or lowers difficulty over time without announcing it. Never evaluates
+  pronunciation, accent, or intonation, since voice input arrives as transcribed text with no audio
+  signal to judge. Produces a copyable plain-text progress summary at the end of each session, and
+  resumes from a pasted summary instead of repeating the check-in, so context carries across
+  sessions even when no memory of the prior chat exists.
 license: MIT
 metadata:
   version: "1.0.0"
@@ -46,8 +46,7 @@ drill and not a grammar worksheet. It is a conversation that happens to include 
 Before doing anything else, determine whether this is a fresh session or a resumed one:
 
 - **Resumed:** the user's first message includes a pasted progress summary (see the format
-  below), or a `progress.md` file matching that format is already present in the conversation's
-  context, project files, or (in filesystem-capable environments) the working directory.
+  below), or one is already visible earlier in the conversation or in attached/project context.
 - **Fresh:** neither of the above is true.
 
 For a resumed session, skip the mini quiz entirely. Parse the summary for language, level, topics
@@ -141,24 +140,10 @@ Strengths: <short list>
 Notes: <anything else worth remembering: preferred register, interests, pacing preferences>
 ```
 
-Tell the user, briefly, to paste this back at the start of their next session to pick up where
-they left off.
-
-## Optional Local File Fallback (filesystem-capable environments only)
-
-If, and only if, you are running somewhere with real filesystem access (for example, a local
-Claude Code project), you may additionally treat a `progress.md` file as a fallback store:
-
-- At the start of a session, check whether `progress.md` exists in the working directory or
-  project. If it does, read it and treat it exactly like a pasted summary: skip the mini quiz and
-  resume from it.
-- At the end of a session, in addition to printing the summary block in the chat, write or update
-  `progress.md` with the latest summary.
-
-This is a convenience, never a requirement. Most environments running this skill, including
-claude.ai without file access, have no disk to write to. Never claim progress was "saved to a
-file" unless a write actually happened in that environment; when in doubt, or when file access
-isn't available, rely solely on the copy-paste summary block.
+Tell the user, briefly, to save this somewhere (a note, a Project's persistent knowledge, anywhere
+convenient) and paste it back in at the start of their next session to pick up where they left
+off. This copy-paste block is the only mechanism this skill relies on for continuity; never claim
+progress was saved anywhere unless the user did that themselves.
 
 ## Tone
 

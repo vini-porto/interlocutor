@@ -1,95 +1,52 @@
 # Interlocutor
 
-[![skills.sh installs](https://skills.sh/b/vini-porto/interlocutor)](https://skills.sh/vini-porto/interlocutor)
+A Claude Skill that turns a chat, including voice mode, into a foreign-language conversation
+partner. It's plain Markdown, so it works anywhere Claude Skills work: no code, no build step, no
+external dependencies.
 
-A portable agent skill that turns Claude into a foreign-language conversation partner, in text or
-voice mode. It is plain Markdown, so it can run in any harness that supports skill-style
-instructions.
+This is built specifically for chat clients with voice mode (claude.ai, the Claude mobile apps),
+not for coding-agent tools like Claude Code or Codex, which don't have a spoken conversation mode
+to practice with.
 
 ## Installation
 
-### Skills CLI
+Add `SKILL.md` as a Skill in a Claude app that supports voice mode:
 
-Install globally with the cross-agent skills CLI so Interlocutor is available in every project:
+1. Open **Settings → Capabilities → Skills** (naming may vary slightly by platform/version).
+2. Create a new skill and paste in the contents of `SKILL.md`, or upload the file directly if your
+   client supports file upload for skills.
+3. Start a new chat (or voice chat) and it's available.
 
-```bash
-npx skills add vini-porto/interlocutor --global
-```
-
-Update an existing install:
-
-```bash
-npx skills update interlocutor --global
-```
-
-To install globally into every supported agent harness:
-
-```bash
-npx skills add vini-porto/interlocutor --global --agent '*'
-```
-
-To target one configured harness, pass its agent name:
-
-```bash
-npx skills add vini-porto/interlocutor --global --agent <agent-name>
-```
-
-Omit `--global` for a project-local install that can be committed and shared with collaborators.
-Start a new agent session or reload skills after installation.
-
-### Manual
-
-Any agent harness can use the skill directly because the runtime artifact is `SKILL.md`. Install
-it wherever your harness expects skill directories, or copy `SKILL.md` into an existing skill
-folder.
-
-For example:
-
-```bash
-git clone https://github.com/vini-porto/interlocutor.git /path/to/your/skills/interlocutor
-```
-
-Or, if you already have this repo cloned:
-
-```bash
-mkdir -p /path/to/your/skills/interlocutor
-cp SKILL.md /path/to/your/skills/interlocutor/
-```
-
-For Claude Code specifically, that usually means a directory under `~/.claude/skills/` (global)
-or `.claude/skills/` (project-local):
-
-```bash
-mkdir -p ~/.claude/skills/interlocutor
-cp SKILL.md ~/.claude/skills/interlocutor/
-```
+If your client doesn't support custom Skills yet, you can get the same behavior in a Claude
+Project: paste the contents of `SKILL.md` into the Project's custom instructions.
 
 ## Usage
 
-Open a new chat and invoke the skill however your harness exposes installed skills, then just
-start talking. You don't need to fill out anything up front, Claude will ask.
+Open a new chat (or voice chat) and just start talking. You don't need to fill out anything up
+front, Claude will ask.
 
 ```
 Let's practice a language.
 ```
 
-You can also front-load what you already know to skip straight past the parts of the check-in
-you'd rather not repeat:
+You can also front-load what you already know to skip past the parts of the check-in you'd rather
+not repeat:
 
 ```
 I want to practice Portuguese conversation. I'm somewhere around B1, and I like
 talking about travel and music.
 ```
 
-Works the same way in Claude's voice mode: open a voice chat with the skill installed and just
-start speaking. Since voice input reaches Claude as a text transcript, feedback stays limited to
-grammar, vocabulary, and phrasing. Interlocutor never invents an opinion about your accent or
-pronunciation; see [The Pronunciation Rule](SKILL.md#the-pronunciation-rule) in `SKILL.md`.
+In voice mode, feedback stays limited to grammar, vocabulary, and phrasing, since Claude only ever
+receives a text transcript of what you said, never the audio. Interlocutor never invents an
+opinion about your accent or pronunciation; see [The Pronunciation
+Rule](SKILL.md#the-pronunciation-rule) in `SKILL.md`.
 
 ### Resuming a session
 
 At the end of a session, Claude prints a short plain-text progress summary. Save it somewhere (a
-note, a file, whatever's convenient), and paste it back in as your first message next time:
+note, a Project's persistent knowledge, whatever's convenient), and paste it back in as your first
+message next time:
 
 ```
 INTERLOCUTOR PROGRESS SAVE
@@ -101,11 +58,9 @@ Strengths: good vocabulary range, comfortable with past tense narration
 Notes: prefers informal register, enjoys travel and music topics
 ```
 
-Claude reads it, skips the check-in, and picks the conversation back up from there. If you're
-running this in an environment with real file access (like a local Claude Code project),
-Interlocutor can also read and write a local `progress.md` as a fallback, but this is optional:
-the copy-paste summary is the only mechanism guaranteed to work everywhere, including claude.ai
-with no disk access.
+Claude reads it, skips the check-in, and picks the conversation back up from there. This
+copy-paste block is the only continuity mechanism the skill relies on, since a chat has no
+guaranteed memory of previous sessions.
 
 ## Example Session
 
@@ -161,10 +116,9 @@ A hard rule runs underneath all of it: Interlocutor never fabricates pronunciati
 mode hands Claude a text transcript, not audio, so any claim about accent or pronunciation would
 be invented. Feedback stays limited to grammar, vocabulary, and textual fluency, always.
 
-Because a portable skill can't assume any storage exists, progress lives in a plain-text summary
-block the user copies out at the end of a session and pastes back in at the start of the next one.
-Where a real filesystem is available, a local `progress.md` can serve as an optional fallback, but
-the skill never depends on it.
+Since a chat has no guaranteed memory across sessions, progress lives in a plain-text summary
+block the user copies out at the end of a session and pastes back in at the start of the next one,
+preserving context without depending on any particular storage.
 
 ## Version History
 
